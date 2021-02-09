@@ -7,6 +7,6 @@ use CodeIgniter\Model;
 class UserModel extends Model
 {
     protected $table = 'user';
-    protected $id = 'id_user';
+    protected $primaryKey = 'id_user';
     protected $useTimestamps = true;
 }

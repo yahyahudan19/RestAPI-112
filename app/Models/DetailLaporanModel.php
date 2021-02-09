@@ -7,6 +7,6 @@ use CodeIgniter\Model;
 class DetailLaporanModel extends Model
 {
     protected $table = "detail_report";
-    protected $id = 'id';
+    protected $primaryKey = 'id';
     protected $useTimestamps = true;
 }

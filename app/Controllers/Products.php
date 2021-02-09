@@ -4,38 +4,38 @@ namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\DetailLaporanModel;
+use App\Models\ProductModel;
 
-class DetailLaporan extends ResourceController
+class Products extends ResourceController
 {
     use ResponseTrait;
-
-    // Get All News
+    // get all product
     public function index()
     {
-        $model = new DetailLaporanModel();
+        $model = new ProductModel();
         $data = $model->findAll();
         return $this->respond($data, 200);
     }
-    // Get Single News
+
+    // get single product
     public function show($id = null)
     {
-        $model = new DetailLaporanModel();
-        $data = $model->getWhere(['id_feedback' => $id])->getResult();
+        $model = new ProductModel();
+        $data = $model->getWhere(['product_id' => $id])->getResult();
         if ($data) {
             return $this->respond($data);
         } else {
-            return $this->failNotFound('Data Mboten ditemukan :(' . $id);
+            return $this->failNotFound('No Data Found with id ' . $id);
         }
     }
 
-    // create a DetailLaporan
+    // create a product
     public function create()
     {
-        $model = new DetailLaporanModel();
+        $model = new ProductModel();
         $data = [
-            'report_id' => $this->request->getPost('report_id'),
-            'gambar' => $this->request->getPost('gambar')
+            'product_name' => $this->request->getPost('product_name'),
+            'product_price' => $this->request->getPost('product_price')
         ];
         $data = json_decode(file_get_contents("php://input"));
         $data = $this->request->getPost();
@@ -51,21 +51,21 @@ class DetailLaporan extends ResourceController
         return $this->respondCreated($data, 201);
     }
 
-    // update Detail Laporan
+    // update product
     public function update($id = null)
     {
-        $model = new DetailLaporanModel();
+        $model = new ProductModel();
         $json = $this->request->getJSON();
         if ($json) {
             $data = [
-                'report_id' => $json->report_id,
-                'gambar' => $json->gambar
+                'product_name' => $json->product_name,
+                'product_price' => $json->product_price
             ];
         } else {
             $input = $this->request->getRawInput();
             $data = [
-                'report_id' => $input['report_id'],
-                'gambar' => $input['gambar']
+                'product_name' => $input['product_name'],
+                'product_price' => $input['product_price']
             ];
         }
         // Insert to Database
@@ -79,11 +79,11 @@ class DetailLaporan extends ResourceController
         ];
         return $this->respond($response);
     }
-    
-    // Delete News
+
+    // delete product
     public function delete($id = null)
     {
-        $model = new DetailLaporanModel();
+        $model = new ProductModel();
         $data = $model->find($id);
         if ($data) {
             $model->delete($id);
@@ -97,7 +97,7 @@ class DetailLaporan extends ResourceController
 
             return $this->respondDeleted($response);
         } else {
-            return $this->failNotFound('Data Mboten ditemukan :( ' . $id);
+            return $this->failNotFound('No Data Found with id ' . $id);
         }
     }
 }

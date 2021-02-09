@@ -7,6 +7,6 @@ use CodeIgniter\Model;
 class LaporanModel extends Model
 {
     protected $table = 'report';
-    protected $id = 'id_pelapor';
+    protected $primaryKey = 'id_pelapor';
     protected $useTimestamps = true;
 }
